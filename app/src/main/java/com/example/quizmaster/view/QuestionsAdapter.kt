@@ -9,11 +9,13 @@ import com.example.quizmaster.R
 import com.example.quizmaster.model.SurveyQuestionsItem
 
 
-class QuestionsAdapter(private val survey: List<SurveyQuestionsItem?>?) : RecyclerView.Adapter<QuestionsAdapter.ViewHolder>(){
-    var answersAdapter : AnswersAdapter? = null
+class QuestionsAdapter(private val survey: List<SurveyQuestionsItem?>?) :
+    RecyclerView.Adapter<QuestionsAdapter.ViewHolder>() {
+    var answersAdapter: AnswersAdapter? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_question, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_question, parent, false)
         return ViewHolder(view)
     }
 
@@ -30,7 +32,12 @@ class QuestionsAdapter(private val survey: List<SurveyQuestionsItem?>?) : Recycl
         private val tvQuestion: TextView = itemView.findViewById(R.id.questionTextView)
         private val rvAnswers: RecyclerView = itemView.findViewById(R.id.answersRecyclerView)
         fun bind(question: SurveyQuestionsItem?) {
-            tvQuestion.text = "${position+1} . "+question?.questions
+            val multiChoiceText = if (question?.isMultiChoice == true) {
+                " (Choose all that are applicable.)"
+            } else {
+                " (Only one option is applicable.)"
+            }
+            tvQuestion.text = "${position + 1} . " + question?.questions+multiChoiceText
             // Set up RecyclerView for answers
             answersAdapter = AnswersAdapter(question?.answers, question?.isMultiChoice ?: false)
             rvAnswers.adapter = answersAdapter

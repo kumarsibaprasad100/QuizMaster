@@ -37,11 +37,11 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun submitResponse( token: String, marks:String, status:String) {
+    fun submitResponse( token: String, marks:String, surveyId:String) {
         viewModelScope.launch {
             try {
                 val result = withContext(Dispatchers.IO) {
-                    apiService.submitMarks(token, SubmitRequest(status,marks))
+                    apiService.submitMarks(token, SubmitRequest(surveyId,marks))
                 }
                 submitLiveData.postValue(result)
                 Log.e("get api success",result.toString())

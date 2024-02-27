@@ -49,6 +49,7 @@ class LoginActivity : AppCompatActivity() {
         if (result.isSuccessful) {
             Log.i("get api success", result.body().toString())
             Constants.SetToken(result.body()?.token.toString(), this@LoginActivity)
+            Constants.setLoggedIn(true, this@LoginActivity)
             val intent = Intent(this@LoginActivity, MainActivity::class.java)
             startActivity(intent)
             finish()

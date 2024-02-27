@@ -9,4 +9,6 @@
     <string name="go_to_survey">Go To Survey</string>
     <string name="your_answers_are_submitted_successfully">Your answers are submitted Successfully</string>
     <string name="please_attempt_all_questions">Please attempt all questions!</string>
+    <string name="survey_description">Survey Description</string>
+    <string name="survey_test">Survey Test</string>
 </resources>

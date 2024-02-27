@@ -21,5 +21,18 @@ class Constants {
             val retrivedToken = preferences.getString("TOKEN", null)
             return retrivedToken ?: ""
         }
+
+        fun setLoggedIn(isLoggedIn: Boolean, activity: Activity) {
+            val preferences: SharedPreferences =
+                activity.getSharedPreferences("MY_APP", Context.MODE_PRIVATE)
+            preferences.edit().putBoolean("IS_LOGGED_IN", isLoggedIn).apply()
+        }
+
+        fun getLoggedIn(activity: Activity): Boolean {
+            val preferences: SharedPreferences =
+                activity.getSharedPreferences("MY_APP", Context.MODE_PRIVATE)
+            val isLoggedIn = preferences.getBoolean("IS_LOGGED_IN", false)
+            return isLoggedIn
+        }
     }
 }

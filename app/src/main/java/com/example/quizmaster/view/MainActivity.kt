@@ -1,11 +1,13 @@
 package com.example.quizmaster.view
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ContentInfoCompat.Flags
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.quizmaster.R
@@ -50,6 +52,11 @@ class MainActivity : AppCompatActivity() {
             showFragment(SurveyFragment(result))
             updateUI(result)
         } else {
+            if(result.code() == 401){
+                Constants.setLoggedIn(false, this@MainActivity)
+                Constants.SetToken("", this@MainActivity)
+                startActivity(Intent(this@MainActivity, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK ))
+            }
             Log.i("get api error", result.errorBody().toString())
         }
     }
@@ -64,10 +71,9 @@ class MainActivity : AppCompatActivity() {
                 mViewModel.submitLiveData.observe(this, ::submitPostResponse)
                 if (answersAttempted(result)) {
                     mViewModel.submitResponse(
-                        /*RetrofitBuilder.apiService,*/
                         Constants.getToken(this@MainActivity),
                         marks.toString(),
-                        "completed"
+                        result.body()?.content?.get(0)?.survey?.surveyId.toString()
                     )
                 } else {
                     showDialog(getString(R.string.please_attempt_all_questions), false)
